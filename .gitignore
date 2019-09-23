@@ -1,0 +1,7 @@
+node_modules/
+tmp
+alpha-c9cce-firebase-adminsdk-8qaw1-db69200023.json
+..DS_Store
+frontend/
+
+./deployment-envs/
