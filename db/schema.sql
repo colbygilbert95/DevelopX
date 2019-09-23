@@ -286,9 +286,7 @@ CREATE INDEX index_software_licenses_on_name ON Software_Licenses(name);
 CREATE TABLE Users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     email TEXT DEFAULT "",
-    sign_in_count INTEGER,
-    current_sigin_at INTEGER
-    last_sign_in_at INTEGER,
+    encrypted_password TEXT DEFAULT "",
     created_at INTEGER,
     updated_at INTEGER,
     skype TEXT,
@@ -310,7 +308,7 @@ CREATE TABLE Users (
     last_activity_on INTEGER,
     location TEXT,
     private_profile INTEGER DEFAULT 0,  --BOOLEAN
-    include_private_contributions DEFAULT 0, --BOOLEAN
+    include_private_contributions INTEGER DEFAULT 0, --BOOLEAN
     commit_email TEXT 
   );
 
