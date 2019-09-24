@@ -1,12 +1,16 @@
 "use strict";
-exports.__esModule = true;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var cors = require("cors");
 var fetch = require("node-fetch");
 var bodyParser = require("body-parser");
 var eosjs_1 = require("eosjs");
-var eosjs_jssig_1 = require("eosjs/dist/eosjs-jssig");
-var eosjs_ecc_1 = require("eosjs-ecc");
+var eosjs_jssig_1 = __importDefault(require("eosjs/dist/eosjs-jssig"));
+var ecc = require('eosjs-ecc');
+var PrivateKey = ecc.PrivateKey;
 var text_encoding_1 = require("text-encoding");
 var admin = require("firebase-admin");
 var serviceAccount = require("./alpha-c9cce-firebase-adminsdk-8qaw1-db69200023.json");
@@ -71,16 +75,16 @@ var accounts = [
 /*********** Setter Endpoints *****/
 app.post("/create_account", function (req, res) {
     var account_name = req.body.account_name;
-    eosjs_ecc_1.PrivateKey.randomKey().then(function (privateKey) {
+    PrivateKey.randomKey().then(function (privateKey) {
         var account = accounts[0].name;
         var privKey = accounts[0].privateKey;
         var privateWif = privateKey.toWif();
-        var pubkey = eosjs_ecc_1.PrivateKey.fromString(privateWif)
+        var pubkey = PrivateKey.fromString(privateWif)
             .toPublic()
             .toString();
         // eosjs function call: connect to the blockchain
         var rpc = new eosjs_1.JsonRpc(nodeos, { fetch: fetch });
-        var sig = new eosjs_jssig_1["default"]([privKey]);
+        var sig = new eosjs_jssig_1.default([privKey]);
         var api = new eosjs_1.Api({
             rpc: rpc,
             signatureProvider: sig,
@@ -140,7 +144,7 @@ app.post("/create_account", function (req, res) {
                 last_name: req.body.last_name
             };
             var actionName = "createacct";
-            var sig = new eosjs_jssig_1["default"]([privateWif]);
+            var sig = new eosjs_jssig_1.default([privateWif]);
             var api1 = new eosjs_1.Api({
                 rpc: rpc,
                 signatureProvider: sig,
@@ -176,14 +180,16 @@ app.post("/create_account", function (req, res) {
                     Private_Key: privateWif
                 }, { merge: true });
                 return res.send("DEVELOPX_CREATE_ACCOUNT_SUCCESS");
-            })["catch"](function (e) {
+            })
+                .catch(function (e) {
                 console.error(e);
                 console.log("DEVELOPX_CREATE_ACCOUNT_EXCEPTION: " + e);
                 if (e instanceof eosjs_1.RpcError) {
                     console.log(JSON.stringify(e.json, null, 2));
                 }
             });
-        })["catch"](function (e) {
+        })
+            .catch(function (e) {
             console.error(e);
             console.log("EOS_CREATE_ACCOUNT_EXCEPTION: " + e);
             if (e instanceof eosjs_1.RpcError) {
@@ -212,7 +218,7 @@ app.post("/create_project", function (req, res) {
             };
             // eosjs function call: connect to the blockchain
             var rpc = new eosjs_1.JsonRpc(nodeos, { fetch: fetch });
-            var sig = new eosjs_jssig_1["default"]([
+            var sig = new eosjs_jssig_1.default([
                 doc._fieldsProto.Private_Key.stringValue
             ]);
             var api = new eosjs_1.Api({
@@ -243,7 +249,8 @@ app.post("/create_project", function (req, res) {
                 .then(function (create_project_result) {
                 console.log(create_project_result);
                 return res.send("CREATE_PROJECT_SUCCESS");
-            })["catch"](function (e) {
+            })
+                .catch(function (e) {
                 console.error(e);
                 console.log("CREATE_PROJECT_EXCEPTION: " + e);
                 if (e instanceof eosjs_1.RpcError) {
@@ -270,7 +277,7 @@ app.post("/add_contributor", function (req, res) {
                 new_manager: req.body.new_manager
             };
             var rpc = new eosjs_1.JsonRpc(nodeos, { fetch: fetch });
-            var sig = new eosjs_jssig_1["default"]([
+            var sig = new eosjs_jssig_1.default([
                 doc._fieldsProto.Private_Key.stringValue
             ]);
             var api = new eosjs_1.Api({
@@ -301,7 +308,8 @@ app.post("/add_contributor", function (req, res) {
                 .then(function (add_contributor_result) {
                 console.log(add_contributor_result);
                 return res.send("ADD_CONTRIBUTOR_SUCCESS");
-            })["catch"](function (e) {
+            })
+                .catch(function (e) {
                 console.log(e);
                 console.log("ADD_CONTRIBUTOR_EXCEPTION: " + e);
                 if (e instanceof eosjs_1.RpcError) {
@@ -328,7 +336,7 @@ app.post("/delete_contributor", function (req, res) {
                 del_manager: req.body.del_manager
             };
             var rpc = new eosjs_1.JsonRpc(nodeos, { fetch: fetch });
-            var sig = new eosjs_jssig_1["default"]([
+            var sig = new eosjs_jssig_1.default([
                 doc._fieldsProto.Private_Key.stringValue
             ]);
             var api = new eosjs_1.Api({
@@ -359,7 +367,8 @@ app.post("/delete_contributor", function (req, res) {
                 .then(function (delete_contributor_result) {
                 console.log(delete_contributor_result);
                 return res.send("DELETE_CONTRIBUTOR_SUCCESS");
-            })["catch"](function (e) {
+            })
+                .catch(function (e) {
                 console.log(e);
                 console.log("DELETE_CONTRIBUTOR_EXCEPTION: " + e);
                 if (e instanceof eosjs_1.RpcError) {
@@ -384,7 +393,8 @@ app.post("/get_all_projects", function (req, res) {
         .then(function (projects) {
         console.log(projects);
         return res.send(projects.rows);
-    })["catch"](function (e) {
+    })
+        .catch(function (e) {
         console.error(e);
         console.log("GET_ALL_PROJECTS_EXCEPTION: " + e);
         if (e instanceof eosjs_1.RpcError) {
@@ -410,7 +420,8 @@ app.post("/get_profile_data", function (req, res) {
         .then(function (accounts) {
         console.log(accounts.rows[0]);
         return res.send(accounts.rows[0]);
-    })["catch"](function (e) {
+    })
+        .catch(function (e) {
         console.error(e);
         console.log("GET_PROFILE_DATA_EXCEPTION: " + e);
         if (e instanceof eosjs_1.RpcError) {
@@ -435,7 +446,8 @@ app.post("/get_project_by_id", function (req, res) {
         .then(function (project) {
         console.log(project.rows[0]);
         return res.send(project.rows[0]);
-    })["catch"](function (e) {
+    })
+        .catch(function (e) {
         console.error(e);
         console.log("GET_PROJECT_BY_ID_ECEPTION: " + e);
         if (e instanceof eosjs_1.RpcError) {
@@ -452,7 +464,7 @@ app.post("/get_project_by_name", function (req, res) {
         "scope": "devxcontract",
         "table": "projects",
         "lower_bound": 0,
-        "limit": 200
+        "limit": 200,
     }).then(function (projects) {
         var repo = "project " + project_name + " does not exists";
         for (var i = 0; i < projects.rows.length; i++) {
@@ -461,7 +473,7 @@ app.post("/get_project_by_name", function (req, res) {
             }
         }
         res.send(repo);
-    })["catch"](function (e) {
+    }).catch(function (e) {
         console.error(e);
         console.log('GET_PROJECT_BY_NAME EXCEPTION: ' + e);
         if (e instanceof eosjs_1.RpcError) {
@@ -470,7 +482,7 @@ app.post("/get_project_by_name", function (req, res) {
     });
 });
 /***** Git Endpoints *****/
-/*********** Setter Endpoints *****/
+/*********** Getter Endpoints *****/
 app.post("/repository_exists", function (req, res) {
     var repositoryPath = "/" + req.body.proj_manager + "/" + req.body.project_name + ".git";
     var bool = fs.existsSync("../gitServer/tmp/" + repositoryPath);
@@ -487,7 +499,8 @@ app.post("/get_last_commit", function (req, res) {
         .then(function (commits) {
         console.log(commits.latest);
         return res.send(commits.latest);
-    })["catch"](function (e) {
+    })
+        .catch(function (e) {
         console.error(e);
         console.log("GET_LAST_COMMIT_EXCEPTION: " + e);
     });
@@ -503,7 +516,8 @@ app.post("/get_total_commits", function (req, res) {
         };
         console.log(result);
         return res.send(result);
-    })["catch"](function (e) {
+    })
+        .catch(function (e) {
         console.error(e);
         console.log("GET_TOTAL_COMMITS_EXCEPTION: " + e);
     });
@@ -527,7 +541,8 @@ app.post("/get_tree_content", function (req, res) {
         }
         console.log({ getTreeContent: result });
         return res.send(result);
-    })["catch"](function (e) {
+    })
+        .catch(function (e) {
         console.error(e);
         console.log("GET_TREE_CONTENT_EXCEPTION: " + e);
     });
@@ -541,7 +556,8 @@ app.post("/get_file", function (req, res) {
         .then(function (code) {
         console.log({ getFile: code });
         return res.send(code);
-    })["catch"](function (e) {
+    })
+        .catch(function (e) {
         console.error(e);
         console.log("GET_FILE_EXCEPTION: " + e);
     });
