@@ -197,6 +197,7 @@ CREATE TABLE Projects (
     approvals_before_merge INTEGER DEFAULT 0,
     reset_approvals_on_push INTEGER DEFAULT 1, -- BOOLEAN
     archived INTEGER DEFAULT 0, --BOOLEAN
+    forked_from_project_id INTEGER
 );
 
 CREATE INDEX index_projects_on_created_at ON Projects(created_at);
