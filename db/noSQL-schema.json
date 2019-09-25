@@ -64,7 +64,7 @@
             "FOREIGN_KEY(assignee_id)": "REFERENCES Users(id) ON UPDATE CASCADE",
             "FOREIGN_KEY(author_id)": "REFERENCES Users(id) ON UPDATE CASCADE",
             "FOREIGN_KEY(merge_user_id)": "REFERENCES Users(id) ON UPDATE CASCADE",
-            "FOREIGN_KEY(update_by_id)": "REFERENCES Users(id) ON UPDATE CASCADE",
+            "FOREIGN_KEY(update_by_id)": "REFERENCES Users(id) ON UPDATE CASCADE"
             
         },
         "Programming_Langauges":{
@@ -77,7 +77,7 @@
             "creator_id": "TEXT" ,
             "project_name": "TEXT" ,
             "description": "TEXT",
-            "num_commits": "INTEGER", //to delete
+            "num_commits": "INTEGER", 
             "created_at": "INTEGER",
             "last_commit": "INTEGER",
             "path": "TEXT",
