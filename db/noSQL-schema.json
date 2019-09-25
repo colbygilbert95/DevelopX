@@ -1,0 +1,169 @@
+
+
+{
+    "Collections":{
+        "Issues":{
+            "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+            "title":"TEXT",
+            "author_id": "TEXT",
+            "project_id": "INTEGER",
+            "created_at": "INTEGER",
+            "updated_at": "INTEGER",
+            "description": "TEXT",
+            "state": "TEXT",
+            "iid": "INTEGER", 
+            "updated_by_id": "INTEGER",
+            "wieght": "INTEGER",
+            "confidential": "Boolean", 
+            "due_date": "INTEGER",
+            "lock_version": "INTEGER",
+            "time_estimate": "INTEGER",
+            "last_edit_at": "INTEGER",
+            "last_edit_by_id": "INTEGER",
+            "discussion_locked": "Boolean", 
+            "closed_at": "INTEGER",
+            "closed_by_id": "INTEGER",
+            "issue_assignees": "user_id[]",
+            "comments": "Vulnerability_Feedback[]",
+            "FOREIGN_KEY(project_id)": "REFERENCES Projects(id) ON UPDATE CASCADE",
+            "FOREIGN_KEY(author_id)": "REFERENCES Users(id) ON UPDATE SET NULL",
+            "FOREIGN_KEY(closed_by_id)": "REFERENCES Users(id) ON UPDATE SET NULL",
+            "FOREIGN_KEY(updated_by_id)": "REFERENCES Users(id) ON UPDATE SET NULL"
+        },
+        "Merge_Requests": {
+            "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+            "target_branch": "TEXT",
+            "source_branch": "TEXT",
+            "source_project_id": "INTEGER",
+            "author_id": "INTEGER",
+            "title": "TEXT",
+            "created_at": "INTEGER",
+            "updated_at": "INTEGER",
+            "state": "TEXT",
+            "merge_status": "TEXT",
+            "target_project_id": "INTEGER",
+            "iid": "INTEGER",
+            "description": "TEXT",
+            "updated_by_id": "INTEGER",
+            "merge_error": "TEXT",
+            "merge_params": "TEXT",
+            "merge_user_id": "INTEGER",
+            "merge_commit_sha": "TEXT",
+            "approvals_before_merge": "INTEGER",
+            "lock_version": "INTEGER",
+            "time_estimate": "INTEGER",
+            "last_edited_at": "INTEGER",
+            "last_edited_by_id": "INTEGER",
+            "discussion_locked": "Boolean", 
+            "allow_maintainer_to_push": "Boolean", 
+            "comments": "Vulnerability_Feedback[]",
+            "merge_request_assignees": "user_id[]",
+            
+            "FOREIGN_KEY(source_project_id)": "REFERENCES Projects(id) ON UPDATE SET NULL",
+            "FOREIGN_KEY(target_project_id)": "REFERENCES Projects(id) ON UPDATE CASCADE",
+            "FOREIGN_KEY(assignee_id)": "REFERENCES Users(id) ON UPDATE CASCADE",
+            "FOREIGN_KEY(author_id)": "REFERENCES Users(id) ON UPDATE CASCADE",
+            "FOREIGN_KEY(merge_user_id)": "REFERENCES Users(id) ON UPDATE CASCADE",
+            "FOREIGN_KEY(update_by_id)": "REFERENCES Users(id) ON UPDATE CASCADE",
+            
+        },
+        "Programming_Langauges":{
+            "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+            "name": "TEXT",
+            "color": "TEXT"
+        },
+        "Projects": {
+            "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+            "creator_id": "TEXT" ,
+            "project_name": "TEXT" ,
+            "description": "TEXT",
+            "num_commits": "INTEGER", //to delete
+            "created_at": "INTEGER",
+            "last_commit": "INTEGER",
+            "path": "TEXT",
+            "last_activity_at": "INTEGER",
+            "updated_at": "INTEGER",
+            "visibility_lvl": "INTEGER",
+            "likers": "user_id[]",
+            "avatar_path": "TEXT", 
+            "archived": "Boolean", 
+            "forked_from_project_id": "INTEGER",
+            "repository_lanaguages": "Repository_Lanaguages[]",
+            "project_authorizations": "Project_Authorizations[]"
+        },
+        "Releases": {
+            "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+            "tag": "TEXT",
+            "description": "TEXT",
+            "project_id": "INTEGER",
+            "created_at": "INTEGER",
+            "updated_at": "INTEGER",
+            "author_id": "INTEGER",
+            "name": "TEXT",
+            "sha": "TEXT",
+            "released_at": "INTEGER",
+
+            "FOREIGN_KEY(project_id)": "REFERENCES Projects(id) ON UPDATE CASCADE",
+            "FOREIGN_KEY(author_id)": "REFERENCES Users(id) ON UPDATE CASCADE"
+
+        },
+        "Users": {
+            "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+            "email": "TEXT",
+            "encrypted_password": "TEXT",
+            "created_at": "INTEGER",
+            "updated_at": "INTEGER",
+            "skype": "TEXT",
+            "linkedin": "TEXT",
+            "twitter": "TEXT",
+            "bio": "TEXT",
+            "username": "TEXT",
+            "avatar": "TEXT",
+            "notification_email": "TEXT",
+            "website_url": "TEXT",
+            "public_email": "TEXT",
+            "first_name": "TEXT",
+            "last_name": "TEXT",
+            "tag_line": "TEXT",
+            "organization": "TEXT",
+            "last_activity_on": "INTEGER",
+            "location": "TEXT",
+            "private_profile": "Boolean",  
+            "include_private_contributions": "Boolean", 
+            "commit_email": "TEXT",
+            "likes": "project_id[]"
+        }
+    },
+    "Sub-Documents":{
+        "Project_Authorizations": {
+            "user_id": "INTEGER",
+            "access_level": "INTEGER",
+            
+            "FOREIGN_KEY(user_id)": "REFERENCES Users(id) ON UPDATE CASCADE"
+        },
+        "Repository_Lanaguages":{
+            "name": "TEXT",
+            "share": "Float"
+        },
+        "Vulnerability_Feedback": {
+            "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+            "created_at": "INTEGER",
+            "updated_at": "INTEGER",
+            "feedback_type": "INTEGER",
+            "category": "INTEGER",
+            "project_id": "INTEGER",
+            "author_id": "INTEGER",
+            "issue_id": "INTEGER",
+            "merge_request_id": "INTEGER",
+            "comment_author_id": "INTEGER",
+            "comment": "TEXT",
+            "comment_timestamp": "INTEGER",
+        
+            "FOREIGN_KEY(issue_id)": "REFERENCES Issues(id) ON UPDATE SET NULL",
+            "FOREIGN_KEY(merge_request_id)": "REFERENCES Merge_Requests(id) ON UPDATE SET NULL",
+            "FOREIGN_KEY(project_id)": "REFERENCES Projects(id) ON UPDATE CASCADE",
+            "FOREIGN_KEY(author_id)": "REFERENCES Users(id) ON UPDATE CASCADE",
+            "FOREIGN_KEY(comment_author_id)": "REFERENCES Users(id) ON UPDATE SET NULL"
+        }
+    }
+}
