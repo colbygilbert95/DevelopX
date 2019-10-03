@@ -1,16 +1,17 @@
-import express = require("express");
-import cors = require("cors");
-import fetch = require("node-fetch");
-import bodyParser = require("body-parser");
+const express = require("express");
+const cors = require("cors");
+const fetch = require("node-fetch");
+const bodyParser = require("body-parser");
 import { Api, JsonRpc, RpcError }from "eosjs";
 import * as Eos from "eosjs";
 import JsSignatureProvider from "eosjs/dist/eosjs-jssig";
-import {PrivateKey} from "eosjs-ecc";
+const ecc = require('eosjs-ecc');
+const PrivateKey = ecc.PrivateKey;
 import { TextDecoder, TextEncoder } from "text-encoding";
-import admin = require("firebase-admin");
-import serviceAccount = require("./alpha-c9cce-firebase-adminsdk-8qaw1-db69200023.json");
-import fs = require("fs");
-import git_processor = require("simple-git/promise");
+const admin = require("firebase-admin");
+const serviceAccount = require("./alpha-c9cce-firebase-adminsdk-8qaw1-db69200023.json");
+const fs = require("fs");
+const git_processor = require("simple-git/promise");
 import BigNumber from "bignumber.js"
 
 /***** Express Setup ********/
@@ -222,7 +223,7 @@ app.post("/create_account", (req: any, res: any) => {
 app.post("/create_project", (req: any, res: any) => {
   let account_name: string = req.body.account_name;
   console.log("account name", account_name);
-  let scatterRef: FirebaseFirestore.DocumentReference = db
+  let scatterRef: any = db
     .collection("scatter")
     .doc(account_name);
   scatterRef.get().then((doc: any) => {
@@ -287,7 +288,7 @@ app.post("/create_project", (req: any, res: any) => {
 
 app.post("/add_contributor", (req: any, res: any) => {
   let proj_manager: string = req.body.proj_manager;
-  let scatterRef: FirebaseFirestore.DocumentReference = db
+  let scatterRef: any = db
     .collection("scatter")
     .doc(proj_manager);
   scatterRef.get().then((doc: any) => {
@@ -352,7 +353,7 @@ app.post("/add_contributor", (req: any, res: any) => {
 
 app.post("/delete_contributor", (req: any, res: any) => {
   let proj_manager: string = req.body.proj_manager;
-  let scatterRef: FirebaseFirestore.DocumentReference = db
+  let scatterRef: any = db
     .collection("scatter")
     .doc(proj_manager);
 
@@ -444,7 +445,7 @@ app.post("/get_all_projects", (req: any, res: any) => {
     });
 });
 
-app.post("/get_profile_data", (req, res) => {
+app.post("/get_profile_data", (req: any, res: any) => {
   let account_name:string = req.body.account_name;
   console.log("test account name", account_name);
 
@@ -474,7 +475,7 @@ app.post("/get_profile_data", (req, res) => {
     });
 });
 
-app.post("/get_project_by_id", (req, res) => {
+app.post("/get_project_by_id", (req: any, res: any) => {
   let project_id:string = req.body.project_id;
   
   const rpc = new JsonRpc(nodeos, { fetch });
@@ -502,7 +503,7 @@ app.post("/get_project_by_id", (req, res) => {
     });
 });
 
-app.post("/get_project_by_name", (req, res) => {
+app.post("/get_project_by_name", (req: any, res: any) => {
     let project_name:string = req.body.project_name;
 
     const rpc = new JsonRpc(nodeos, { fetch });
