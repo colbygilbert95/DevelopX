@@ -1848,10 +1848,10 @@ node-forge@^0.7.5:
   resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.7.6.tgz#fdf3b418aee1f94f0ef642cd63486c77ca9724ac"
   integrity sha512-sol30LUpz1jQFBjOKwbjxijiE3b6pjd74YwfD0fJOKPjF+fONKb2Yg8rYgS6+bK6VDl+/wfr4IYpC7jDzLUIfw==
 
-node-git-server@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/node-git-server/-/node-git-server-0.5.0.tgz#ddfd546b454a9b6a5a30da475c2aeec4c48c68f8"
-  integrity sha512-W6kwWnx8TZIY8kjWDKAWTO22Ux8PupvKy/Hof36aF0kux2EYr41kMiTFu0ap/3jZVqF0Xk5Wl+DUa5Pd7As6DQ==
+node-git-server@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/node-git-server/-/node-git-server-0.6.1.tgz#c69c82fe92335002442b92fb11d314911c3523b9"
+  integrity sha512-dCWUlzD4j1p2SEp/Lm08a0YJgm9W3KFQbyZXPKmI4tY/TAPii5KT0dQmuLDbNAJFW4OJ4KrvRDdunt/D8zi9ew==
   dependencies:
     through "^2.3.8"
 
